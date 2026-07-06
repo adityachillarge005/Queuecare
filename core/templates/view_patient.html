@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patients</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f6f8;
+            padding:40px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        table{
+            width:80%;
+            margin:auto;
+            border-collapse:collapse;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:12px;
+            text-align:center;
+            border-bottom:1px solid #ddd;
+        }
+
+        tr:hover{
+            background:#f1f1f1;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Patient Records</h1>
+
+<table>
+
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Date of Birth</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+
+    {% for patient in patients %}
+
+    <tr>
+        <td>{{ patient.id }}</td>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.gender }}</td>
+        <td>{{ patient.date_of_birth }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>
+            <a href="{% url 'edit_patient' patient.id %}">Edit</a>
+            <form method="POST" action="{% url 'delete_patient' patient.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+
+
+</body>
+</html> 

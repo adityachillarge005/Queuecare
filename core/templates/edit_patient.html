@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Patient</title>
+</head>
+<body>
+
+    <h1>Edit Patient</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name</label><br>
+        <input type="text" name="name" value="{{patient.name}}"><br><br>
+
+        <label>Phone</label><br>
+        <input type="tel" name="phone" maxlength="10" pattern="[0-9]{10}" value="{{patient.phone}}" required><br><br>
+
+        <label>Date of Birth</label><br>
+        <input type="date"
+       name="date_of_birth"
+       value="{{ patient.date_of_birth|date:'Y-m-d' }}">
+
+        <label>Gender</label><br>
+        <select name="gender">
+            <option
+    {% if patient.gender == "Male" %}
+        selected
+    {% endif %}
+>
+    Male
+</option>
+            <option
+    {% if patient.gender == "Female" %}
+        selected
+    {% endif %}
+>
+    Female
+</option>
+             <option
+    {% if patient.gender == "Other" %}
+        selected
+    {% endif %}
+>
+    Other
+</option>
+        </select><br><br>
+
+        <button type="submit">Save Patient</button>
+
+    </form>
+    <br>
+    <a href="/view-patient/">Existing_patients</a>
+
+</body>
+</html>
