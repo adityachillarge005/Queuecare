@@ -4,6 +4,19 @@ QueueCare is a digital appointment and queue management system designed for clin
 
 ---
 
+## 📸 Screenshots
+
+### 1. Landing Page
+![Landing Page](screenshots/landing_page.png)
+
+### 2. Clinic Staff Console & Dashboard
+![Staff Dashboard](screenshots/dashboard.png)
+
+### 3. Patient Self-Service Portal
+![Patient Portal](screenshots/patient_portal.png)
+
+---
+
 ## 🚀 Key Features
 
 ### 1. Administration & Clinic Staff Console
