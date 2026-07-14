@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Portal - QueueCare{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="fw-bold mb-0 text-dark">Patient Portal</h2>
+        <p class="text-secondary">Welcome, {{ patient.name }}. View your live queue status and appointment history here.</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Active Token / Appointment Status -->
+    <div class="col-lg-6 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-primary text-white border-0 py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-ticket-perforated me-2"></i> Current Active Token</h5>
+            </div>
+            <div class="card-body p-4 text-center">
+                {% if active_appointment %}
+                    <div class="mb-3">
+                        <span class="text-muted small d-block">YOUR ASSIGNED DOCTOR</span>
+                        <h4 class="fw-bold text-dark mb-1">{{ active_appointment.doctor.name }}</h4>
+                        <span class="badge bg-secondary mb-3">{{ active_appointment.doctor.specialization }}</span>
+                    </div>
+                    
+                    <div class="bg-light rounded-4 p-4 mb-4 border border-light-subtle d-inline-block w-100">
+                        <div class="row align-items-center">
+                            <div class="col-6 border-end">
+                                <span class="text-muted small d-block mb-1">YOUR TOKEN</span>
+                                <span class="display-3 fw-bold text-primary">{{ active_appointment.token_number }}</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="text-muted small d-block mb-1">NOW SERVING</span>
+                                <span class="display-3 fw-bold text-warning">
+                                    {% if now_serving_token %}
+                                        {{ now_serving_token }}
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <span class="text-muted small d-block">PEOPLE AHEAD</span>
+                            <span class="h4 fw-bold text-danger">{{ people_ahead }}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted small d-block">APPOINTMENT DATE</span>
+                            <span class="h6 fw-bold text-dark">{{ active_appointment.appointment_date|date:"F d, Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="border-top pt-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted small">Status:</span>
+                            {% if active_appointment.status == 'W' %}
+                                <span class="badge badge-waiting">Waiting</span>
+                            {% elif active_appointment.status == 'IP' %}
+                                <span class="badge badge-progress">Serving</span>
+                            {% endif %}
+                        </div>
+                        
+                        <form method="POST" action="{% url 'cancel_appointment' active_appointment.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-x-circle me-1"></i> Cancel Booking
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <!-- Clean Empty State -->
+                    <div class="py-5">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-calendar2-minus fs-1 text-muted"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">No Active Tokens</h5>
+                        <p class="text-muted mb-0 small px-4">
+                            You currently do not have any active appointments or waitlist tokens for today. Please visit the clinic reception desk to book a consultation.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Details Summary & Info -->
+    <div class="col-lg-6 mb-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-person-lines-fill me-2 text-secondary"></i> Medical Profile Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-4 text-muted small">Patient Name:</div>
+                    <div class="col-8 fw-semibold">{{ patient.name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4 text-muted small">Phone Number:</div>
+                    <div class="col-8">{{ patient.phone }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4 text-muted small">Date of Birth:</div>
+                    <div class="col-8">{{ patient.date_of_birth|date:"d M, Y" }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4 text-muted small">Gender:</div>
+                    <div class="col-8"><span class="badge bg-light text-dark px-3">{{ patient.gender }}</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm">
+            <div class="card-body bg-light-subtle p-3">
+                <h6 class="fw-bold text-primary mb-1"><i class="bi bi-info-circle-fill me-1"></i> Patient Portal Info:</h6>
+                <p class="small text-muted mb-0">
+                    Your token number resets every day and is unique to the selected doctor. When the doctor calls the next token, your "People Ahead" count updates automatically.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment History Table -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-secondary"></i> Consultations History</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3">Token</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in history %}
+                    <tr>
+                        <td class="fw-bold text-secondary">#{{ app.token_number }}</td>
+                        <td>{{ app.doctor.name }} <span class="text-muted small">({{ app.doctor.specialization }})</span></td>
+                        <td>{{ app.appointment_date|date:"d M, Y" }}</td>
+                        <td>
+                            {% if app.status == 'C' %}
+                                <span class="badge badge-completed">Completed</span>
+                            {% elif app.status == 'X' %}
+                                <span class="badge badge-cancelled">Cancelled</span>
+                            {% elif app.status == 'W' %}
+                                <span class="badge badge-waiting">Waiting</span>
+                            {% elif app.status == 'IP' %}
+                                <span class="badge badge-progress">Serving</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted small">
+                            No past appointments found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

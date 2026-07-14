@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to QueueCare{% endblock %}
+
+{% block content %}
+<div class="row align-items-center py-5">
+    <div class="col-lg-6 mb-5 mb-lg-0">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 fs-6 rounded-pill fw-medium">Smart Queue Management</span>
+        <h1 class="display-4 fw-bold mb-3" style="color: #0f172a; line-height: 1.2;">
+            Skip the Waiting Room. <br><span class="text-primary">Manage Your Turn Digitally.</span>
+        </h1>
+        <p class="lead text-secondary mb-4" style="font-size: 1.1rem; line-height: 1.6;">
+            QueueCare helps clinics organize patient queues and helps patients track their turn with a simple digital token system. Reduce waiting room crowds and optimize consultation workflows.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 py-3 fw-semibold shadow-sm">
+                Get Started <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4 py-3 fw-semibold">
+                Clinic Portal
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4 bg-white border border-light-subtle rounded-4 shadow-sm">
+            <!-- Clinic Screen Display Mockup -->
+            <div class="bg-dark text-white p-4 rounded-4 shadow-lg mb-4 text-center">
+                <span class="badge bg-primary text-white mb-2 px-3 py-1.5 fs-7 rounded-pill text-uppercase tracking-wider">Now Serving</span>
+                <h2 class="display-3 fw-bold text-warning mb-2" style="letter-spacing: 1px;">TOKEN 08</h2>
+                <p class="text-secondary small mb-0"><i class="bi bi-person-fill text-info"></i> Dr. Sharma — Consultation Room 2</p>
+            </div>
+            
+            <!-- Live Queue Line representation -->
+            <div class="text-start">
+                <h6 class="fw-bold mb-3 text-secondary d-flex justify-content-between">
+                    <span>Waiting Queue Line</span>
+                    <span class="badge bg-warning-subtle text-warning-emphasis">4 Patients Remaining</span>
+                </h6>
+                <div class="d-flex align-items-center justify-content-between p-2 rounded bg-light border border-light-subtle mb-2">
+                    <span class="fw-bold text-dark px-2">Next up:</span>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px;">09</span>
+                        <span class="badge bg-secondary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; opacity: 0.85;">10</span>
+                        <span class="badge bg-secondary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; opacity: 0.7;">11</span>
+                        <span class="badge bg-secondary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; opacity: 0.55;">12</span>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success fw-normal px-2"><i class="bi bi-check-circle-fill"></i> Completed: 07</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5 border-light-subtle">
+
+<!-- How It Works Section -->
+<div class="row py-4">
+    <div class="col-12 text-center mb-5">
+        <h2 class="fw-bold" style="color: #0f172a;">How QueueCare Simplifies Flow</h2>
+        <p class="text-muted">A structured three-step approach to managing waiting lines digitalized.</p>
+    </div>
+    
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100 p-3 border-0 bg-white">
+            <div class="card-body text-center">
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 60px; height: 60px;">
+                    <i class="bi bi-person-plus-fill fs-3"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">1. Add & Select Patient</h5>
+                <p class="card-text text-secondary">
+                    Staff registers a patient in the system, or patients can register themselves online to quickly link accounts.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100 p-3 border-0 bg-white">
+            <div class="card-body text-center">
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 60px; height: 60px;">
+                    <i class="bi bi-ticket-perforated-fill fs-3"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">2. Auto-Generate Token</h5>
+                <p class="card-text text-secondary">
+                    Book an appointment for a specific doctor and date. The system automatically issues a sequential daily token number.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 p-3 border-0 bg-white">
+            <div class="card-body text-center">
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 60px; height: 60px;">
+                    <i class="bi bi-clock-history fs-3"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">3. Manage Live Queue</h5>
+                <p class="card-text text-secondary">
+                    Clinic staff calls next, updates status, and completes visits. Patients monitor progress and remaining queue size live.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5 border-light-subtle">
+
+<!-- Benefits Grid -->
+<div class="row pb-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+        <div class="p-4 rounded-4 bg-white shadow-sm border-0 h-100">
+            <h4 class="fw-bold mb-4 text-primary"><i class="bi bi-shield-check me-2"></i> For Clinics & Doctors</h4>
+            <ul class="list-unstyled d-flex flex-column gap-3">
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Organized Patient Flow</strong>
+                        <span class="text-secondary small">Maintain distinct queues per doctor and clear waiting lists sorted by tokens.</span>
+                    </div>
+                </li>
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Consolidated Administration Dashboard</strong>
+                        <span class="text-secondary small">Real-time statistics including waiting counts, serving numbers, and daily completions.</span>
+                    </div>
+                </li>
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Instant Call Next Actions</strong>
+                        <span class="text-secondary small">Transition waiting patients to consultation rooms with one-click flow controls.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="p-4 rounded-4 bg-white shadow-sm border-0 h-100">
+            <h4 class="fw-bold mb-4 text-info"><i class="bi bi-people-fill me-2"></i> For Patients</h4>
+            <ul class="list-unstyled d-flex flex-column gap-3">
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Eliminate Waiting Room Anxiety</strong>
+                        <span class="text-secondary small">Patients know their exact token number and their position in the queue.</span>
+                    </div>
+                </li>
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Live Queue Status Tracking</strong>
+                        <span class="text-secondary small">Calculate the count of patients ahead on the patient portal in real time.</span>
+                    </div>
+                </li>
+                <li class="d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                    <div>
+                        <strong class="d-block text-dark">Appointment History</strong>
+                        <span class="text-secondary small">Look back at past clinic visits, specialized doctors, and previous token records.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,36 +1,55 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Patient</title>
-</head>
-<body>
+{% block title %}Add New Patient - QueueCare{% endblock %}
 
-    <h1>Add Patient</h1>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2">
+                <a href="{% url 'view_patient' %}" class="btn btn-sm btn-outline-secondary py-1 px-2">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h5 class="mb-0 fw-bold text-dark">Register New Patient</h5>
+            </div>
+            
+            <div class="card-body p-4">
+                <form method="POST" action="{% url 'add_patient' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold text-secondary small">Full Name</label>
+                        <input type="text" class="form-control bg-light py-2" id="name" name="name" placeholder="Enter patient full name" required>
+                    </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <label>Name</label><br>
-        <input type="text" name="name"><br><br>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label fw-semibold text-secondary small">Phone Number</label>
+                        <input type="tel" class="form-control bg-light py-2" id="phone" name="phone" placeholder="Enter 10-digit phone number" maxlength="10" pattern="[0-9]{10}" required>
+                        <div class="form-text small text-muted">Must be exactly 10 digits without country code.</div>
+                    </div>
 
-        <label>Phone</label><br>
-        <input type="tel" name="phone" maxlength="10" pattern="[0-9]{10}" required><br><br>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="date_of_birth" class="form-label fw-semibold text-secondary small">Date of Birth</label>
+                            <input type="date" class="form-control bg-light py-2" id="date_of_birth" name="date_of_birth" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label fw-semibold text-secondary small">Gender</label>
+                            <select class="form-select bg-light py-2" id="gender" name="gender" required>
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
 
-        <label>Date of Birth</label><br>
-        <input type="date" name="date_of_birth"><br><br>
-
-        <label>Gender</label><br>
-        <select name="gender">
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-        </select><br><br>
-
-        <button type="submit">Save Patient</button>
-
-    </form>
-    <br>
-    <a href="{% url 'view_patient' %}">Existing_patients</a>
-
-</body>
-</html>
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 fw-semibold shadow-sm">
+                        <i class="bi bi-save me-1"></i> Save Patient Record
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

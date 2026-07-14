@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Register New Doctor - QueueCare{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom d-flex align-items-center gap-2">
+                <a href="{% url 'view_doctors' %}" class="btn btn-sm btn-outline-secondary py-1 px-2">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h5 class="mb-0 fw-bold text-dark">Register New Doctor</h5>
+            </div>
+            
+            <div class="card-body p-4">
+                <form method="POST" action="{% url 'add_doctor' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-semibold text-secondary small">Doctor Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-secondary border-end-0">Dr.</span>
+                            <input type="text" class="form-control bg-light py-2 border-start-0" id="name" name="name" placeholder="Enter doctor's full name" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="specialization" class="form-label fw-semibold text-secondary small">Specialization</label>
+                        <input type="text" class="form-control bg-light py-2" id="specialization" name="specialization" placeholder="e.g. Cardiology, Pediatrics, General Medicine" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="experience_years" class="form-label fw-semibold text-secondary small">Years of Experience</label>
+                        <input type="number" class="form-control bg-light py-2" id="experience_years" name="experience_years" placeholder="e.g. 8" min="0" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 fw-semibold shadow-sm">
+                        <i class="bi bi-person-check me-1"></i> Save Doctor Profile
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

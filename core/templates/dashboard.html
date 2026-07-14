@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}Clinic Staff Dashboard - QueueCare{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-0 text-dark">Clinic Control Dashboard</h2>
+        <p class="text-secondary mb-0">Overview of today's patient queue and administrative controls. Today is {{ today|date:"F d, Y" }}</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{% url 'queue_view' %}" class="btn btn-primary fw-semibold shadow-sm">
+            <i class="bi bi-list-ol me-1"></i> Live Queues Console
+        </a>
+    </div>
+</div>
+
+<!-- Statistics Cards Grid -->
+<div class="row mb-5">
+    <div class="col-6 col-lg-2 mb-4 mb-lg-0">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-3">
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-people fs-5"></i>
+                </div>
+                <h6 class="text-muted small mb-1">Total Patients</h6>
+                <h3 class="fw-bold mb-0 text-dark">{{ total_patients }}</h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-lg-2 mb-4 mb-lg-0">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-3">
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-person-heart fs-5"></i>
+                </div>
+                <h6 class="text-muted small mb-1">Total Doctors</h6>
+                <h3 class="fw-bold mb-0 text-dark">{{ total_doctors }}</h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-lg-2 mb-4 mb-lg-0">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-3">
+                <div class="bg-secondary-subtle text-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-calendar-event fs-5"></i>
+                </div>
+                <h6 class="text-muted small mb-1">Today's Booked</h6>
+                <h3 class="fw-bold mb-0 text-dark">{{ today_appointments }}</h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-lg-2 mb-4 mb-lg-0">
+        <div class="card h-100 border-0 shadow-sm bg-warning-subtle border-start border-warning border-3">
+            <div class="card-body text-center p-3">
+                <div class="text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-hourglass-split fs-5"></i>
+                </div>
+                <h6 class="text-warning-emphasis small mb-1">Waiting</h6>
+                <h3 class="fw-bold mb-0 text-warning-emphasis">{{ waiting_today }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-2">
+        <div class="card h-100 border-0 shadow-sm bg-primary-subtle border-start border-primary border-3">
+            <div class="card-body text-center p-3">
+                <div class="text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-play-circle fs-5"></i>
+                </div>
+                <h6 class="text-primary-emphasis small mb-1">Serving</h6>
+                <h3 class="fw-bold mb-0 text-primary-emphasis">{{ in_progress_today }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-2">
+        <div class="card h-100 border-0 shadow-sm bg-success-subtle border-start border-success border-3">
+            <div class="card-body text-center p-3">
+                <div class="text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-check-circle fs-5"></i>
+                </div>
+                <h6 class="text-success-emphasis small mb-1">Completed</h6>
+                <h3 class="fw-bold mb-0 text-success-emphasis">{{ completed_today }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Administration Navigation -->
+<h5 class="fw-bold mb-3 text-dark"><i class="bi bi-grid-fill text-secondary me-1"></i> Quick Controls</h5>
+<div class="row mb-5">
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'add_patient' %}" class="card text-decoration-none bg-white p-3 h-100 shadow-sm border border-light-subtle hover-shadow">
+            <div class="card-body p-2 d-flex align-items-center gap-3">
+                <div class="bg-primary text-white rounded-3 p-3"><i class="bi bi-person-plus fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold text-dark mb-1">Add Patient</h6>
+                    <span class="text-muted small">Register a new patient</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'view_patient' %}" class="card text-decoration-none bg-white p-3 h-100 shadow-sm border border-light-subtle hover-shadow">
+            <div class="card-body p-2 d-flex align-items-center gap-3">
+                <div class="bg-success text-white rounded-3 p-3"><i class="bi bi-people fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold text-dark mb-1">Patient Directory</h6>
+                    <span class="text-muted small">Search and edit records</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'book_appointment' %}" class="card text-decoration-none bg-white p-3 h-100 shadow-sm border border-light-subtle hover-shadow">
+            <div class="card-body p-2 d-flex align-items-center gap-3">
+                <div class="bg-warning text-white rounded-3 p-3"><i class="bi bi-calendar-plus fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold text-dark mb-1">Book Turn</h6>
+                    <span class="text-muted small">Schedule and issue token</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'add_doctor' %}" class="card text-decoration-none bg-white p-3 h-100 shadow-sm border border-light-subtle hover-shadow">
+            <div class="card-body p-2 d-flex align-items-center gap-3">
+                <div class="bg-info text-white rounded-3 p-3"><i class="bi bi-person-heart fs-4"></i></div>
+                <div>
+                    <h6 class="fw-bold text-dark mb-1">Add Doctor</h6>
+                    <span class="text-muted small">Register a doctor profile</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Recent Appointments Table -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history me-1 text-secondary"></i> Recent Bookings</h5>
+        <span class="badge bg-light text-secondary border fw-normal">Latest 5 Entries</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4">Token</th>
+                        <th>Patient Name</th>
+                        <th>Assigned Doctor</th>
+                        <th>Appointment Date</th>
+                        <th>Status</th>
+                        <th class="text-end px-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in recent_appointments %}
+                    <tr>
+                        <td class="px-4 fw-bold text-primary">#{{ app.token_number }}</td>
+                        <td class="fw-semibold">{{ app.patient.name }}</td>
+                        <td>{{ app.doctor.name }} <span class="text-muted small">({{ app.doctor.specialization }})</span></td>
+                        <td>{{ app.appointment_date|date:"M d, Y" }}</td>
+                        <td>
+                            {% if app.status == 'W' %}
+                                <span class="badge badge-waiting">Waiting</span>
+                            {% elif app.status == 'IP' %}
+                                <span class="badge badge-progress">Serving</span>
+                            {% elif app.status == 'C' %}
+                                <span class="badge badge-completed">Completed</span>
+                            {% elif app.status == 'X' %}
+                                <span class="badge badge-cancelled">Cancelled</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end px-4">
+                            <a href="{% url 'queue_view' %}?doctor_id={{ app.doctor.id }}&date={{ app.appointment_date|date:'Y-m-d' }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-eye"></i> View in Queue
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="bi bi-calendar-x fs-2 d-block mb-2"></i>
+                            No appointments found in the system yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
