@@ -9,7 +9,7 @@ QueueCare is a digital appointment and queue management system designed for clin
 ### 1. Administration & Clinic Staff Console
 * **Protected Dashboard**: Displays real-time operational metrics: total registered patients, active doctors, today's appointments, waiting counts, serving numbers, and completed consults.
 * **Patient Directory (CRUD)**: Register new patients, edit medical profiles, search patient details, and safely delete records (with database deletion protection).
-* **Doctor Registry**: Add new doctors, specialty departments, and experience logs.
+* **Doctor Registry & Archiving**: Add new doctors, specialty departments, and experience logs. Allows soft-deleting (archiving) inactive doctors (`is_active=False`) to prevent them from receiving new bookings while keeping historical records intact.
 * **Smart Appointment Booking**: Dropdown-based interface to select patient and doctor, select date, and automatically calculate wait tokens.
 * **Live Queue Console**: Allows staff to call the next waiting patient, transition consultations to "In Progress", complete visits, or cancel appointments.
 
@@ -123,11 +123,12 @@ Open your browser and visit: `http://127.0.0.1:8000/`
 
 ## 🔒 Security Features Implemented
 
+* **Strict HTTP Method Controls**: All database-modifying and state-changing actions (calling next, completing visits, cancelling appointments, archiving doctors, and deleting patients) are restricted to POST requests. Simple GET requests are prevented from altering database state.
 * **CSRF Protection**: All state-changing forms include Django's CSRF token check to prevent cross-site request forgery.
 * **Password Hashing**: User passwords are saved securely using Django's PBKDF2 algorithm.
 * **Access Control**: Administrative views are protected with the custom `@staff_required` decorator, ensuring only authorized staff can manage queues.
 * **ORM Safety**: Queries are made via Django ORM QuerySets, protecting the application against SQL Injection.
-* **Cascade Deletion Prevention**: ForeignKeys use `on_delete=models.PROTECT` to prevent accidental loss of patient historical data. Deletion attempts show friendly error alerts instead of server crashes.
+* **Cascade Deletion Prevention**: ForeignKeys use `on_delete=models.PROTECT` to protect historical visit records. Deleting a patient with existing appointments is blocked, displaying a warning message: `"This patient cannot be deleted because appointment history is associated with them."` Linked user authentication credentials are saved in the event of deletion failure.
 
 ---
 
